@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KAST Cashback | How it Works</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0e0e0e;
+            --surface-color: #1a1a1a;
+            --accent-color: #1fe8a2;
+            --text-primary: #ffffff;
+            --text-secondary: #888888;
+            --transition-speed: 0.4s;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Diagonal Line Texture */
+        .texture-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: repeating-linear-gradient(
+                45deg,
+                rgba(255, 255, 255, 0.03) 0px,
+                rgba(255, 255, 255, 0.03) 1px,
+                transparent 1px,
+                transparent 10px
+            );
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* Glow Blobs */
+        .glow-blob {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(31, 232, 162, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .blob-1 {
+            top: -100px;
+            left: -200px;
+        }
+
+        /* Layout Containers */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+            position: relative;
+            z-index: 20;
+        }
+
+        section {
+            padding: 100px 0;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Header & Hero */
+        header {
+            padding: 40px 0;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        .logo {
+            height: 32px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo img {
+            height: 100%;
+            width: auto;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 120px 0 160px;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 700;
+            margin-bottom: 24px;
+            line-height: 1.1;
+            letter-spacing: -2px;
+        }
+
+        .hero p {
+            font-size: clamp(1.1rem, 3vw, 1.5rem);
+            color: var(--text-secondary);
+            margin-bottom: 48px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn-read {
+            background-color: transparent;
+            color: var(--accent-color);
+            border: 2px solid var(--accent-color);
+            padding: 16px 40px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border-radius: 100px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 0 auto;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 20px rgba(31, 232, 162, 0.2);
+        }
+
+        .btn-read:hover {
+            background-color: var(--accent-color);
+            color: var(--bg-color);
+            box-shadow: 0 0 30px rgba(31, 232, 162, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn-read.active {
+            background-color: #ff4d4d;
+            border-color: #ff4d4d;
+            color: white;
+            box-shadow: 0 0 20px rgba(255, 77, 77, 0.3);
+        }
+
+        /* Explainer Section */
+        .explainer-card {
+            background-color: var(--surface-color);
+            border-left: 4px solid var(--accent-color);
+            padding: 60px;
+            border-radius: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .explainer-card h2 {
+            font-size: 2.5rem;
+            margin-bottom: 24px;
+        }
+
+        .explainer-card p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+        }
+
+        /* Steps Grid */
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            margin-top: 60px;
+        }
+
+        .step-card {
+            background-color: var(--surface-color);
+            padding: 40px;
+            border-radius: 24px;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .step-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .step-number {
+            position: absolute;
+            top: 24px;
+            left: 24px;
+            background-color: var(--accent-color);
+            color: var(--bg-color);
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .step-icon {
+            margin: 40px 0 24px;
+            font-size: 2.5rem;
+        }
+
+        .step-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 16px;
+        }
+
+        .step-card p {
+            color: var(--text-secondary);
+        }
+
+        /* POV Section */
+        .pov-section {
+            text-align: center;
+        }
+
+        .pov-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 32px;
+        }
+
+        .pov-content {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto 60px;
+        }
+
+        .notification-mock {
+            background-color: var(--surface-color);
+            border: 1px solid rgba(31, 232, 162, 0.3);
+            padding: 24px 32px;
+            border-radius: 100px;
+            display: inline-flex;
+            align-items: center;
+            gap: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 15px rgba(31, 232, 162, 0.1);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(31, 232, 162, 0.4); }
+            70% { box-shadow: 0 0 0 15px rgba(31, 232, 162, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(31, 232, 162, 0); }
+        }
+
+        .bell-icon {
+            background-color: rgba(31, 232, 162, 0.1);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-color);
+            font-size: 1.5rem;
+        }
+
+        /* Rewards Section */
+        .rewards-section {
+            text-align: center;
+        }
+
+        .rewards-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+        }
+
+        .rewards-subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 60px;
+            font-size: 1.2rem;
+        }
+
+        .rewards-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 32px;
+            margin-bottom: 48px;
+        }
+
+        .reward-card {
+            background-color: var(--surface-color);
+            padding: 32px;
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            text-align: left;
+        }
+
+        .reward-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            overflow: hidden;
+            background-color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .reward-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .reward-info h4 {
+            font-size: 1.5rem;
+            margin-bottom: 4px;
+        }
+
+        .reward-info p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .callout-box {
+            background-color: rgba(31, 232, 162, 0.05);
+            border: 1px solid var(--accent-color);
+            padding: 32px;
+            border-radius: 24px;
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: var(--accent-color);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Footer */
+        footer {
+            padding: 80px 0 40px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        footer .brand {
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        footer .ugc {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Voice Highlighting */
+        .reading-highlight {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 10px;
+            border-radius: 24px;
+            transition: outline 0.3s ease;
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 1024px) {
+            .container {
+                padding: 0 40px;
+            }
+            
+            section {
+                padding: 80px 0;
+            }
+
+            .hero h1 {
+                font-size: 4rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 24px;
+            }
+
+            section {
+                padding: 60px 0;
+            }
+
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+                margin-bottom: 32px;
+            }
+
+            .explainer-card {
+                padding: 40px 24px;
+            }
+
+            .explainer-card h2 {
+                font-size: 2rem;
+            }
+
+            .steps-grid, .rewards-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .step-card {
+                padding: 32px 24px;
+            }
+
+            .notification-mock {
+                border-radius: 24px;
+                flex-direction: column;
+                text-align: center;
+                width: 100%;
+                gap: 12px;
+                padding: 24px;
+            }
+
+            .reward-card {
+                padding: 24px;
+                flex-direction: column;
+                text-align: center;
+                align-items: center;
+            }
+
+            .callout-box {
+                padding: 24px;
+                font-size: 1.1rem;
+            }
+
+            footer {
+                padding: 60px 0 40px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .btn-read {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* SVG Icons */
+        .icon-move {
+            background: #FFD700; /* Yellow for MOVE */
+            position: relative;
+        }
+        .icon-move::after {
+            content: "";
+            position: absolute;
+            width: 60%;
+            height: 60%;
+            border: 2px solid #000;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            opacity: 0.3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="texture-overlay"></div>
+<div class="glow-blob blob-1"></div>
+
+<div class="container">
+    <header>
+        <div class="logo">
+            <!-- Using the white transparent logo as requested -->
+            <img src="assets/KAST-logo-white-transparent.png" alt="KAST Logo">
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero visible" id="hero">
+            <h1>How KAST Cashback works</h1>
+            <p>Spend stablecoins. Earn real rewards. Every single day.</p>
+            <button class="btn-read" id="readBtn">
+                <span id="btnIcon">▶</span> <span id="btnText">Read Aloud</span>
+            </button>
+        </section>
+
+        <!-- Explainer Section -->
+        <section id="explainer" data-read="What is KAST Cashback? KAST is a financial platform that lets you store, earn, move, and spend stablecoins. Every time you spend with your KAST card, you earn cashback — automatically. No complicated setup. No waiting. Just spend and watch the rewards come in.">
+            <div class="explainer-card">
+                <h2>What is KAST Cashback?</h2>
+                <p>KAST is a financial platform that lets you store, earn, move, and spend stablecoins. Every time you spend with your KAST card, you earn cashback — automatically. No complicated setup. No waiting. Just spend and watch the rewards come in.</p>
+            </div>
+        </section>
+
+        <!-- Steps Section -->
+        <section id="steps">
+            <div class="steps-grid">
+                <div class="step-card" data-read="Step 1: Load your KAST card. Add stablecoins to your KAST wallet and you're ready to spend anywhere.">
+                    <div class="step-number">1</div>
+                    <div class="step-icon">💳</div>
+                    <h3>Load your KAST card</h3>
+                    <p>Add stablecoins to your KAST wallet and you're ready to spend anywhere.</p>
+                </div>
+                <div class="step-card" data-read="Step 2: Spend like normal. Use your KAST card for daily purchases — food, transport, shopping, anything.">
+                    <div class="step-number">2</div>
+                    <div class="step-icon">🛍️</div>
+                    <h3>Spend like normal</h3>
+                    <p>Use your KAST card for daily purchases — food, transport, shopping, anything.</p>
+                </div>
+                <div class="step-card" data-read="Step 3: Cashback lands instantly. Right after your purchase, a notification pops — your cashback is already in your account.">
+                    <div class="step-number">3</div>
+                    <div class="step-icon">⚡</div>
+                    <h3>Cashback lands instantly</h3>
+                    <p>Right after your purchase, a notification pops — your cashback is already in your account.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- POV Section -->
+        <section class="pov-section" id="pov" data-read="A day of spending with KAST. You grab coffee in the morning — KAST cashback notification pops. You top up your transport card at lunch — another ping. You order dinner in the evening — and there it is again. Every spend, big or small, is working for you in the background. That's what KAST feels like day-to-day.">
+            <h2>A day of spending with KAST</h2>
+            <div class="pov-content">
+                <p>You grab coffee in the morning — KAST cashback notification pops. You top up your transport card at lunch — another ping. You order dinner in the evening — and there it is again. Every spend, big or small, is working for you in the background. That's what KAST feels like day-to-day.</p>
+            </div>
+            
+            <div class="notification-mock">
+                <div class="bell-icon">🔔</div>
+                <div class="notif-text">
+                    <strong style="display: block; font-size: 1.1rem;">Cashback received!</strong>
+                    <span style="color: var(--accent-color); font-weight: 600;">+$0.42 from your last purchase</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Rewards Section -->
+        <section class="rewards-section" id="rewards" data-read="Real cashback. Real numbers. Here's what I've earned just by using KAST normally. 17.27 MOVE tokens, worth approximately 30 cents. 2,276 KAST Points, worth approximately 182 dollars. That's 182 dollars and 43 cents in rewards — just from everyday spending. No staking. No grinding. Just using my card.">
+            <h2>Real cashback. Real numbers.</h2>
+            <p class="rewards-subtitle">Here's what I've earned just by using KAST normally:</p>
+
+            <div class="rewards-grid">
+                <div class="reward-card">
+                    <div class="reward-icon icon-move">
+                        <!-- Custom SVG for MOVE -->
+                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="40" height="40" rx="20" fill="#FFD700"/>
+                            <path d="M10 15H15M10 20H15M10 25H15M20 15H25M20 20H25M20 25H25M15 15V25M25 15V25M10 15V25M20 15V25" stroke="black" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="reward-info">
+                        <h4>17.27 MOVE</h4>
+                        <p>≈ $0.30 USD</p>
+                    </div>
+                </div>
+                <div class="reward-card">
+                    <div class="reward-icon">
+                        <!-- Using KAST icon from assets -->
+                        <img src="assets/KAST-icon.png" alt="KAST Logo">
+                    </div>
+                    <div class="reward-info">
+                        <h4>2,276.70 KAST Points</h4>
+                        <p>≈ $182.13 USD</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="callout-box">
+                That's $182.43 in rewards — just from everyday spending. No staking. No grinding. Just using my card.
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="brand">Built on KAST · kast.xyz</div>
+        <div class="ugc">This page was created as part of the KAST UGC Cashback Campaign</div>
+    </footer>
+</div>
+
+<script>
+    // Intersection Observer for Animations
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('section').forEach(section => {
+        observer.observe(section);
+    });
+
+    // Voice Read Feature
+    const readBtn = document.getElementById('readBtn');
+    const btnIcon = document.getElementById('btnIcon');
+    const btnText = document.getElementById('btnText');
+    
+    let isReading = false;
+    let synth = window.speechSynthesis;
+    let currentUtterance = null;
+
+    const sectionsToRead = [
+        document.getElementById('explainer'),
+        ...document.querySelectorAll('.step-card'),
+        document.getElementById('pov'),
+        document.getElementById('rewards')
+    ];
+
+    function stopReading() {
+        synth.cancel();
+        isReading = false;
+        readBtn.classList.remove('active');
+        btnIcon.textContent = '▶';
+        btnText.textContent = 'Read Aloud';
+        sectionsToRead.forEach(s => s.classList.remove('reading-highlight'));
+    }
+
+    function startReading() {
+        isReading = true;
+        readBtn.classList.add('active');
+        btnIcon.textContent = '■';
+        btnText.textContent = 'Stop';
+
+        let sectionIndex = 0;
+
+        function readNextSection() {
+            if (!isReading || sectionIndex >= sectionsToRead.length) {
+                stopReading();
+                return;
+            }
+
+            const section = sectionsToRead[sectionIndex];
+            const text = section.getAttribute('data-read');
+
+            // Highlight current section
+            sectionsToRead.forEach(s => s.classList.remove('reading-highlight'));
+            section.classList.add('reading-highlight');
+            
+            // Scroll to section
+            section.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.rate = 0.95;
+            utterance.pitch = 1;
+            utterance.lang = 'en-US';
+
+            utterance.onend = () => {
+                sectionIndex++;
+                readNextSection();
+            };
+
+            utterance.onerror = () => {
+                stopReading();
+            };
+
+            currentUtterance = utterance;
+            synth.speak(utterance);
+        }
+
+        readNextSection();
+    }
+
+    readBtn.addEventListener('click', () => {
+        if (isReading) {
+            stopReading();
+        } else {
+            startReading();
+        }
+    });
+
+    // Handle page unload
+    window.onbeforeunload = () => {
+        synth.cancel();
+    };
+</script>
+
+</body>
+</html>
