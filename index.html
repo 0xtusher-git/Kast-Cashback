@@ -339,6 +339,38 @@
         }
 
         /* Rewards Section */
+        .punchy-list {
+            list-style: none;
+            margin-top: 24px;
+        }
+
+        .punchy-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 16px;
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            text-align: left;
+        }
+
+        .punchy-item::before {
+            content: "→";
+            color: var(--accent-color);
+            font-weight: 700;
+        }
+
+        .explainer-callout {
+            margin-top: 32px;
+            border: 1px solid var(--accent-color);
+            padding: 20px;
+            border-radius: 16px;
+            background: rgba(31, 232, 162, 0.05);
+            font-style: italic;
+            text-align: left;
+            width: 100%;
+        }
+
         .rewards-section {
             text-align: center;
         }
@@ -570,12 +602,19 @@
         </section>
 
         <!-- Explainer Section -->
-        <section id="explainer" data-read="What is KAST Cashback? KAST is a financial platform that lets you store, earn, move, and spend stablecoins. Every time you spend with your KAST card, you earn cashback — automatically. No complicated setup. No waiting. Just spend and watch the rewards come in.">
+        <section id="explainer" data-read="How KAST Cashback actually works. You load stablecoins into KAST and spend with your card — anywhere Visa works. Every purchase automatically triggers cashback. KAST Points hit your account instantly. MOVE tokens follow within 2 days. You earn 2 to 8 percent in KAST Points depending on your tier, plus a flat 4 percent back in MOVE on every single swipe. For example, I grabbed coffee for 4 dollars and 20 cents, and got 8 KAST Points plus 0.17 MOVE back. That's cashback on a coffee. Automatically.">
             <div class="explainer-card">
                 <img src="assets/founder.jpg" alt="KAST Founder" class="explainer-image">
                 <div class="explainer-text">
-                    <h2>What is KAST Cashback?</h2>
-                    <p>KAST is a financial platform that lets you store, earn, move, and spend stablecoins. Every time you spend with your KAST card, you earn cashback — automatically. No complicated setup. No waiting. Just spend and watch the rewards come in.</p>
+                    <h2>How KAST Cashback actually works</h2>
+                    <ul class="punchy-list">
+                        <li class="punchy-item">You load stablecoins into KAST and spend with your card — anywhere Visa works.</li>
+                        <li class="punchy-item">Every purchase automatically triggers cashback. KAST Points hit your account instantly. $MOVE tokens follow within 2 days.</li>
+                        <li class="punchy-item">You earn 2–8% in KAST Points depending on your tier, plus a flat 4% back in $MOVE on every single swipe.</li>
+                    </ul>
+                    <div class="explainer-callout">
+                        "I grabbed coffee for $4.20 → got 8 KAST Points + 0.17 $MOVE back. That's cashback on a coffee. Automatically."
+                    </div>
                 </div>
             </div>
         </section>
