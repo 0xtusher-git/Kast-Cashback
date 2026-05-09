@@ -109,8 +109,13 @@
 
         .hero {
             text-align: center;
-            padding: 120px 0 160px;
+            padding: 160px 0 200px;
             position: relative;
+            background: linear-gradient(rgba(14, 14, 14, 0.8), rgba(14, 14, 14, 0.8)), url('assets/KAST-neon.jpg');
+            background-size: cover;
+            background-position: center;
+            border-radius: 0 0 40px 40px;
+            overflow: hidden;
         }
 
         .hero h1 {
@@ -169,6 +174,18 @@
             border-radius: 24px;
             position: relative;
             overflow: hidden;
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .explainer-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--accent-color);
+            flex-shrink: 0;
         }
 
         .explainer-card h2 {
@@ -249,22 +266,64 @@
             margin: 0 auto 60px;
         }
 
-        .notification-mock {
-            background-color: var(--surface-color);
-            border: 1px solid rgba(31, 232, 162, 0.3);
-            padding: 24px 32px;
-            border-radius: 100px;
-            display: inline-flex;
-            align-items: center;
-            gap: 20px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 15px rgba(31, 232, 162, 0.1);
-            animation: pulse 2s infinite;
+        .notification-feed {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            max-width: 600px;
+            margin: 0 auto 40px;
         }
 
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(31, 232, 162, 0.4); }
-            70% { box-shadow: 0 0 0 15px rgba(31, 232, 162, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(31, 232, 162, 0); }
+        .notification-item {
+            background-color: var(--surface-color);
+            border-left: 3px solid var(--accent-color);
+            padding: 20px 24px;
+            border-radius: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .notification-item:hover {
+            transform: scale(1.02);
+        }
+
+        .notif-left {
+            text-align: left;
+        }
+
+        .notif-title {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .notif-spend {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .notif-right {
+            text-align: right;
+            color: var(--accent-color);
+            font-weight: 700;
+        }
+
+        .notif-time {
+            position: absolute;
+            bottom: 8px;
+            right: 12px;
+            font-size: 0.75rem;
+            color: #555;
+        }
+
+        .pov-footer {
+            color: var(--text-secondary);
+            font-style: italic;
+            margin-top: 24px;
         }
 
         .bell-icon {
@@ -411,6 +470,13 @@
 
             .explainer-card {
                 padding: 40px 24px;
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .explainer-image {
+                width: 150px;
+                height: 150px;
             }
 
             .explainer-card h2 {
@@ -506,8 +572,11 @@
         <!-- Explainer Section -->
         <section id="explainer" data-read="What is KAST Cashback? KAST is a financial platform that lets you store, earn, move, and spend stablecoins. Every time you spend with your KAST card, you earn cashback — automatically. No complicated setup. No waiting. Just spend and watch the rewards come in.">
             <div class="explainer-card">
-                <h2>What is KAST Cashback?</h2>
-                <p>KAST is a financial platform that lets you store, earn, move, and spend stablecoins. Every time you spend with your KAST card, you earn cashback — automatically. No complicated setup. No waiting. Just spend and watch the rewards come in.</p>
+                <img src="assets/founder.jpg" alt="KAST Founder" class="explainer-image">
+                <div class="explainer-text">
+                    <h2>What is KAST Cashback?</h2>
+                    <p>KAST is a financial platform that lets you store, earn, move, and spend stablecoins. Every time you spend with your KAST card, you earn cashback — automatically. No complicated setup. No waiting. Just spend and watch the rewards come in.</p>
+                </div>
             </div>
         </section>
 
@@ -533,22 +602,46 @@
                     <p>Right after your purchase, a notification pops — your cashback is already in your account.</p>
                 </div>
             </div>
+
+            <div class="callout-box" style="margin-top: 60px; border-style: dashed; opacity: 0.9;" data-read="Cashback comes in two forms: KAST Points (redeemable in-app) and partner tokens like MOVE. Both hit your account automatically after every spend — no claiming, no waiting.">
+                <strong>Pro Detail:</strong> Cashback comes in two forms: KAST Points (redeemable in-app) and partner tokens like MOVE. Both hit your account automatically after every spend — no claiming, no waiting.
+            </div>
         </section>
 
         <!-- POV Section -->
-        <section class="pov-section" id="pov" data-read="A day of spending with KAST. You grab coffee in the morning — KAST cashback notification pops. You top up your transport card at lunch — another ping. You order dinner in the evening — and there it is again. Every spend, big or small, is working for you in the background. That's what KAST feels like day-to-day.">
+        <section class="pov-section" id="pov" data-read="A day of spending with KAST. You grab coffee in the morning — KAST cashback notification pops. You top up your transport card at lunch — another ping. You order dinner in the evening — and there it is again. Every spend, big or small, is working for you in the background. That's what KAST feels like day-to-day. This is a real day. These are real notifications. KAST just runs in the background and stacks your rewards.">
             <h2>A day of spending with KAST</h2>
             <div class="pov-content">
                 <p>You grab coffee in the morning — KAST cashback notification pops. You top up your transport card at lunch — another ping. You order dinner in the evening — and there it is again. Every spend, big or small, is working for you in the background. That's what KAST feels like day-to-day.</p>
             </div>
             
-            <div class="notification-mock">
-                <div class="bell-icon">🔔</div>
-                <div class="notif-text">
-                    <strong style="display: block; font-size: 1.1rem;">Cashback received!</strong>
-                    <span style="color: var(--accent-color); font-weight: 600;">+$0.42 from your last purchase</span>
+            <div class="notification-feed">
+                <div class="notification-item">
+                    <div class="notif-left">
+                        <span class="notif-title">☕ Coffee shop</span>
+                        <span class="notif-spend">$4.20 spent</span>
+                    </div>
+                    <div class="notif-right">+8 KAST Points</div>
+                    <span class="notif-time">just now</span>
+                </div>
+                <div class="notification-item">
+                    <div class="notif-left">
+                        <span class="notif-title">🚌 Transport top-up</span>
+                        <span class="notif-spend">$10.00 spent</span>
+                    </div>
+                    <div class="notif-right">+20 KAST Points</div>
+                    <span class="notif-time">2h ago</span>
+                </div>
+                <div class="notification-item">
+                    <div class="notif-left">
+                        <span class="notif-title">🍜 Dinner order</span>
+                        <span class="notif-spend">$18.50 spent</span>
+                    </div>
+                    <div class="notif-right">+37 KAST Points + 0.5 MOVE</div>
+                    <span class="notif-time">5h ago</span>
                 </div>
             </div>
+            <p class="pov-footer">"This is a real day. These are real notifications. KAST just runs in the background and stacks your rewards."</p>
         </section>
 
         <!-- Rewards Section -->
@@ -625,6 +718,7 @@
     const sectionsToRead = [
         document.getElementById('explainer'),
         ...document.querySelectorAll('.step-card'),
+        document.querySelector('#steps .callout-box'),
         document.getElementById('pov'),
         document.getElementById('rewards')
     ];
