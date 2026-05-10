@@ -218,22 +218,24 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 20px;
+            gap: 16px;
             margin-top: 40px;
             flex-wrap: wrap;
         }
 
         .flow-step {
             background: var(--surface-color);
-            padding: 16px 24px;
+            padding: 12px 16px;
             border-radius: 12px;
             border: 1px solid rgba(255, 255, 255, 0.05);
             font-weight: 600;
+            font-size: 0.9rem;
+            white-space: nowrap;
         }
 
         .flow-arrow {
             color: var(--text-secondary);
-            font-size: 1.5rem;
+            font-size: 1.2rem;
         }
 
         /* Tier Cards */
@@ -291,7 +293,7 @@
         }
 
         .tier-perks {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: var(--accent-color);
             font-weight: 600;
             padding: 6px 12px;
@@ -481,10 +483,12 @@
             display: flex;
             align-items: flex-start;
             gap: 12px;
-            margin-bottom: 16px;
-            font-size: 1.2rem;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
             color: var(--text-primary);
             text-align: left;
+            word-break: break-word;
+            overflow-wrap: break-word;
         }
 
         .punchy-item::before {
@@ -625,7 +629,7 @@
 
         @media (max-width: 768px) {
             .container {
-                padding: 0 24px;
+                padding: 0 20px;
             }
 
             section {
@@ -633,27 +637,39 @@
             }
 
             .hero h1 {
-                font-size: 3rem;
+                font-size: 2.8rem;
+                letter-spacing: -1px;
             }
 
             .hero p {
-                font-size: 1.1rem;
+                font-size: 1rem;
                 margin-bottom: 32px;
             }
 
             .explainer-card {
-                padding: 40px 24px;
+                padding: 32px 20px;
                 flex-direction: column;
                 text-align: center;
+                border-left: none;
+                border-top: 4px solid var(--accent-color);
+            }
+
+            .explainer-text {
+                width: 100%;
             }
 
             .explainer-image {
-                width: 150px;
-                height: 150px;
+                width: 120px;
+                height: 120px;
+                margin-bottom: 20px;
             }
 
             .explainer-card h2 {
-                font-size: 2rem;
+                font-size: 1.75rem;
+            }
+
+            .punchy-item {
+                font-size: 1rem;
             }
 
             .steps-grid, .rewards-grid {
@@ -661,24 +677,48 @@
                 gap: 24px;
             }
 
-            .step-card {
-                padding: 32px 24px;
-            }
-
-            .notification-mock {
-                border-radius: 24px;
-                flex-direction: column;
-                text-align: center;
-                width: 100%;
-                gap: 12px;
-                padding: 24px;
-            }
-
             .reward-card {
                 padding: 24px;
                 flex-direction: column;
                 text-align: center;
                 align-items: center;
+            }
+
+            .notification-item {
+                padding: 16px;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            .notif-right {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                text-align: left;
+            }
+
+            .notif-time {
+                top: 16px;
+                bottom: auto;
+            }
+
+            .flow-diagram {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .flow-arrow {
+                transform: rotate(90deg);
+            }
+
+            .tier-card.highlight {
+                transform: scale(1.02);
+            }
+
+            .tier-card.highlight:hover {
+                transform: scale(1.04) translateY(-5px);
             }
 
             .callout-box {
